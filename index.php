@@ -16,10 +16,12 @@
         <router-view/>
     </div>
     <script src="views/OrderPizza.vue.js"></script>
+    <script src="views/CurrentOrder.vue.js"></script>
     <script>
         const router = new VueRouter({
             routes: [
                 {path: "/", component: OrderPizza},
+                {path: "/currentOrder", component: CurrentOrder},
                 {path: "*", component: OrderPizza},
             ],
             mode: "history",

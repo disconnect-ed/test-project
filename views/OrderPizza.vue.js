@@ -128,19 +128,25 @@ const OrderPizza = {
             }
         },
         async createOrder() {
-            const orderData = {
-                pizza_title: this.currentPizza.title,
-                pizza_size: this.currentSize.size,
-                pizza_cost: this.pizzaCost.cost_USD,
-                pizza_cost_BYN: this.pizzaCost.cost_BYN || null,
-                sauce_title: this.currentSauce ? this.currentSauce.title : null,
-                sauce_cost: this.currentSauce ? this.currentSauce.cost : null,
-                sauce_cost_BYN: this.currentSauce ? this.currentSauce.cost_BYN : null,
-                total_cost: this.totalCost.cost_USD,
-                total_cost_BYN: this.totalCost.cost_BYN || null,
+            try {
+                this.error = null
+                const orderData = {
+                    pizza_title: this.currentPizza.title,
+                    pizza_size: this.currentSize.size,
+                    pizza_cost: this.pizzaCost.cost_USD,
+                    pizza_cost_BYN: this.pizzaCost.cost_BYN || null,
+                    sauce_title: this.currentSauce ? this.currentSauce.title : null,
+                    sauce_cost: this.currentSauce ? this.currentSauce.cost : null,
+                    sauce_cost_BYN: this.currentSauce ? this.currentSauce.cost_BYN : null,
+                    total_cost: this.totalCost.cost_USD,
+                    total_cost_BYN: this.totalCost.cost_BYN || null,
+                }
+                const {data} = await axios.post('/api/createOrder.php', orderData)
+                sessionStorage.setItem('currentOrder', JSON.stringify(data))
+                router.push('/currentOrder')
+            } catch (e) {
+                this.error = 'Произошла ошибка! Не удалось оформить заказ.'
             }
-            const {data} = await axios.post('/api/createOrder.php', orderData)
-            console.log(data)
         }
     },
     computed: {
